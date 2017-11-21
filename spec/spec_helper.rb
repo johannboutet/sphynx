@@ -1,5 +1,7 @@
 require 'simplecov'
-SimpleCov.start('test_frameworks')
+SimpleCov.start('test_frameworks') do
+  minimum_coverage 90
+end
 
 require 'bundler/setup'
 require 'sphynx'
