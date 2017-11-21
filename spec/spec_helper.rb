@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start('test_frameworks')
+
 require 'bundler/setup'
 require 'sphynx'
 
