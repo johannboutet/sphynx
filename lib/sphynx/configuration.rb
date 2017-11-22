@@ -1,22 +1,42 @@
 module Sphynx
   class Configuration
-    attr_reader :dispatch_routes, :revoke_routes
+    attr_reader :dispatch_requests, :revocation_requests, :scopes
+    attr_accessor :secret
 
     METHODS = %w[HEAD GET POST PUT PATCH DELETE OPTIONS]
 
     def initialize
-      @dispatch_routes = []
-      @revoke_routes = []
+      @dispatch_requests = []
+      @revocation_requests = []
+      @secret = nil
+      @scopes = {
+        user: {
+          repository: User,
+          revocation_strategy: Sphynx::RevocationStrategies::NullStrategy
+        }
+      }
     end
 
-    def dispatch_routes=(routes)
+    def dispatch_requests=(routes)
       validate_routes_config!(routes)
-      @dispatch_routes = routes
+      @dispatch_requests = routes
     end
 
-    def revoke_routes=(routes)
+    def revocation_requests=(routes)
       validate_routes_config!(routes)
-      @revoke_routes = routes
+      @revocation_requests = routes
+    end
+
+    def scopes=(value)
+      raise ArgumentError, 'You have to specify at least one scope' unless value.is_a?(Hash) && value.keys.any?
+      raise ArgumentError, 'A scope must have a repository' unless value.values.all? { |scope| scope.key?(:repository) }
+
+      value.values.map! do |scope|
+        scope[:revocation_strategy] ||= Sphynx::RevocationStrategies::NullStrategy
+        scope
+      end
+
+      @scopes = value
     end
 
     private
