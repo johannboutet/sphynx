@@ -1,0 +1,9 @@
+Metrics/LineLength:
+  Enabled: false
+
+Lint/EndAlignment:
+  EnforcedStyleAlignWith: variable
+  AutoCorrect: true
+
+Layout/CaseIndentation:
+  EnforcedStyle: end

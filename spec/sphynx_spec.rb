@@ -6,13 +6,20 @@ RSpec.describe Sphynx do
   end
 
   context 'configuration methods' do
+    let(:expected_config) {
+      {
+        dispatch_routes: [['POST', /^login$/]],
+        revoke_routes: [['GET', /^logout$/]]
+      }
+    }
+
     before :each do
       Sphynx.configure do |config|
-        config.dispatch_routes = %w[login]
-        config.revoke_routes = %w[logout]
+        config.dispatch_routes = [['POST', /^login$/]]
+        config.revoke_routes = [['GET', /^logout$/]]
       end
 
-      expect(Sphynx.configuration).to have_attributes(dispatch_routes: %w[login], revoke_routes: %w[logout])
+      expect(Sphynx.configuration).to have_attributes(expected_config)
     end
 
     after :all do
