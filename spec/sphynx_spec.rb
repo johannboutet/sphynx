@@ -5,39 +5,51 @@ RSpec.describe Sphynx do
     expect(Sphynx::VERSION).not_to be nil
   end
 
-  context 'configuration methods' do
-    let(:expected_config) {
-      {
-        dispatch_routes: [['POST', /^login$/]],
-        revoke_routes: [['GET', /^logout$/]]
-      }
-    }
+  describe '.configuration' do
+    it 'should return the configuration object' do
+      expect(Sphynx.configuration).to be_a(Sphynx::Configuration)
+    end
+  end
 
-    before :each do
+  describe '.reset' do
+    it 'should reset configuration to default values' do
       Sphynx.configure do |config|
-        config.dispatch_routes = [['POST', /^login$/]]
-        config.revoke_routes = [['GET', /^logout$/]]
+        config.dispatch_requests = [['POST', /^login$/]]
+        config.revocation_requests = [['GET', /^logout$/]]
+        config.secret = 'super secret'
+        config.scopes = {
+          admin: { repository: User, revocation_strategy: DummyRevocationStrategy }
+        }
       end
 
-      expect(Sphynx.configuration).to have_attributes(expected_config)
-    end
-
-    after :all do
       Sphynx.reset
+
+      default_config = {
+        dispatch_requests: [],
+        revocation_requests: [],
+        secret: nil,
+        scopes: {
+          user: {
+            repository: User,
+            revocation_strategy: Sphynx::RevocationStrategies::NullStrategy
+          }
+        }
+      }
+
+      expect(Sphynx.configuration).to have_attributes(default_config)
+    end
+  end
+
+  describe '.configure' do
+    it 'should raise an error if no secret is provided' do
+      block = ->(_) {}
+      expect { Sphynx.configure(&block) }.to raise_error(RuntimeError)
     end
 
-    describe '.configuration' do
-      it 'should return the configuration object' do
-        expect(Sphynx.configuration).to be_a(Sphynx::Configuration)
-      end
-    end
-
-    describe '.reset' do
-      it 'should reset configuration to default values' do
-        Sphynx.reset
-
-        expect(Sphynx.configuration).to have_attributes(dispatch_routes: [], revoke_routes: [])
-      end
+    it 'should yield with the configuration object' do
+      block = ->(config) { config.secret = 'secret' }
+      expect { Sphynx.configure(&block) }.not_to raise_error
+      expect { |b| Sphynx.configure(&b) }.to yield_with_args(Sphynx.configuration)
     end
   end
 end

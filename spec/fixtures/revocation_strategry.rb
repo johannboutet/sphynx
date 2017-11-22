@@ -1,0 +1,2 @@
+class DummyRevocationStrategy
+end
