@@ -1,7 +1,7 @@
 module Sphynx
   class Configuration
     attr_reader :dispatch_requests, :revocation_requests, :scopes
-    attr_accessor :secret
+    attr_accessor :secret, :failure_app
 
     METHODS = %w[HEAD GET POST PUT PATCH DELETE OPTIONS]
 
@@ -9,12 +9,17 @@ module Sphynx
       @dispatch_requests = []
       @revocation_requests = []
       @secret = nil
-      @scopes = {
-        user: {
-          repository: User,
-          revocation_strategy: Sphynx::RevocationStrategies::NullStrategy
+      @failure_app = ->(env) { [401, { 'Content-Type': 'application/json' }, [{ error: 'unauthorized', message: (env['warden.options'][:message] || 'Unauthorized') }.to_json]] }
+
+      begin
+        @scopes = {
+          user: {
+            repository: ::User,
+            revocation_strategy: Sphynx::RevocationStrategies::NullStrategy
+          }
         }
-      }
+      rescue NameError => _
+      end
     end
 
     def dispatch_requests=(routes)
