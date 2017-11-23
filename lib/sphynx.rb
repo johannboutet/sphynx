@@ -21,6 +21,7 @@ module Sphynx
     yield(configuration)
 
     raise RuntimeError, 'You must configure a secret' unless configuration.secret
+    raise RuntimeError, 'You must configure at least one scope' unless configuration.scopes
 
     mappings = {}
     revocation_strategies = {}

@@ -19,6 +19,15 @@ RSpec.describe Sphynx::Configuration do
     expect(instance).to have_attributes(default_config)
   end
 
+  context 'when the default User class is not defined' do
+    before(:all) { Object.send(:remove_const, :User) }
+    after(:all) { load(__dir__ + '/../fixtures/user.rb') }
+
+    it 'should not set a default value for scopes' do
+      expect(instance.scopes).to be_nil
+    end
+  end
+
   describe 'request setter methods' do
     %i[dispatch_requests revocation_requests].each do |setter|
       describe "##{setter}=" do
