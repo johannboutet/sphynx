@@ -4,7 +4,7 @@ require 'sphynx/version'
 
 if Gem::Specification.find_all_by_name('grape').any?
   require 'sphynx/middleware/grape_middleware'
-  require 'sphynx/helper/grape/security_helper'
+  require 'sphynx/helper/grape/security_methods'
   require 'sphynx/helper/grape/secured_endpoint'
 end
 

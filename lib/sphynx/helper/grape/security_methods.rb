@@ -1,6 +1,6 @@
 module Sphynx
-  module Grape
-    module SecurityHelper
+  module GrapeHelper
+    module SecurityMethods
       def warden
         request.env['warden']
       end

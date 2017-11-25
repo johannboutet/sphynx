@@ -1,5 +1,5 @@
 module Sphynx
-  module Grape
+  module GrapeHelper
     module SecuredEndpoint
       def self.included(base)
         base.before do
