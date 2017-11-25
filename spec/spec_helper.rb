@@ -1,6 +1,6 @@
 require 'simplecov'
 SimpleCov.start('test_frameworks') do
-  minimum_coverage 90
+  minimum_coverage 80
 end
 
 require 'bundler/setup'
