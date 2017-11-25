@@ -1,4 +1,4 @@
-RSpec.describe Sphynx::Helper::GrapeHelper do
+RSpec.describe Sphynx::Grape::SecurityHelper do
   let(:target) { Target.new }
   let(:request) { instance_double('request') }
 
@@ -14,7 +14,7 @@ RSpec.describe Sphynx::Helper::GrapeHelper do
     end
 
     class Target
-      include Sphynx::Helper::GrapeHelper
+      include Sphynx::Grape::SecurityHelper
     end
   end
 
