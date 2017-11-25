@@ -1,6 +1,7 @@
 require 'sphynx/configuration'
 require 'sphynx/revocation_strategies/null_strategy'
 require 'sphynx/middleware/grape_middleware'
+require 'sphynx/helper/grape_helper'
 require 'sphynx/version'
 
 require 'warden/jwt_auth'
