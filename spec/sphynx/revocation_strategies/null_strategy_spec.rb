@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Sphynx::RevocationStrategies::NullStrategy do
   describe '.jwt_revoked?' do
     it 'should return false' do

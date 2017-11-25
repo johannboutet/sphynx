@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Sphynx::Configuration do
   let(:instance) { described_class.new }
 

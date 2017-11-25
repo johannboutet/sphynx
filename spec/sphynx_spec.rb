@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Sphynx do
   it 'has a version number' do
     expect(Sphynx::VERSION).not_to be nil
@@ -16,7 +14,7 @@ RSpec.describe Sphynx do
       Sphynx.configure do |config|
         config.dispatch_requests = [['POST', /^login$/]]
         config.revocation_requests = [['GET', /^logout$/]]
-        config.secret = 'super secret'
+        config.secret = 'super_secret'
         config.scopes = {
           admin: { repository: User, revocation_strategy: DummyRevocationStrategy }
         }

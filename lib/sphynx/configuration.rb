@@ -9,7 +9,7 @@ module Sphynx
       @dispatch_requests = []
       @revocation_requests = []
       @secret = nil
-      @failure_app = ->(env) { [401, { 'Content-Type': 'application/json' }, [{ error: 'unauthorized', message: (env['warden.options'][:message] || 'Unauthorized') }.to_json]] }
+      @failure_app = ->(env) { [401, { 'Content-Type' => 'application/json' }, [{ error: 'unauthorized', message: (env['warden.options'][:message] || 'Unauthorized') }.to_json]] }
 
       begin
         @scopes = {

@@ -1,7 +1,7 @@
 require 'warden/jwt_auth/middleware'
 
 module Sphynx
-  module Middlewares
+  module Middleware
     class GrapeMiddleware
       attr_reader :app
 
