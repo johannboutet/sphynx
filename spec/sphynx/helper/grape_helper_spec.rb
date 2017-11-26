@@ -8,8 +8,8 @@ RSpec.describe Sphynx::GrapeHelper do
       config.revocation_requests = [['GET', /^logout$/]]
       config.secret = 'super_secret'
       config.scopes = {
-        user: { repository: User, revocation_strategy: DummyRevocationStrategy },
-        admin: { repository: User, revocation_strategy: DummyRevocationStrategy }
+        user: { user_class: User, provider_class: AuthProvider, revocation_strategy: DummyRevocationStrategy },
+        admin: { user_class: User, provider_class: AuthProvider, revocation_strategy: DummyRevocationStrategy }
       }
     end
 

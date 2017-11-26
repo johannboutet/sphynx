@@ -8,7 +8,8 @@ RSpec.describe Sphynx::Configuration do
       secret: nil,
       scopes: {
         user: {
-          repository: User,
+          user_class: User,
+          provider_class: AuthProvider,
           revocation_strategy: Sphynx::RevocationStrategies::NullStrategy
         }
       }
@@ -50,10 +51,19 @@ RSpec.describe Sphynx::Configuration do
       expect { instance.scopes = {} }.to raise_error(ArgumentError)
     end
 
-    it 'should raise an error if one of the scope has no repository' do
+    it 'should raise an error if one of the scope has no user_class' do
       scopes = {
-        user: { repository: User },
-        admin: {}
+        user: { user_class: User, provider_class: AuthProvider },
+        admin: { provider_class: AuthProvider }
+      }
+
+      expect { instance.scopes = scopes }.to raise_error(ArgumentError)
+    end
+
+    it 'should raise an error if one of the scope has no provider_class' do
+      scopes = {
+        user: { user_class: User, provider_class: AuthProvider },
+        admin: { user_class: User }
       }
 
       expect { instance.scopes = scopes }.to raise_error(ArgumentError)
@@ -61,13 +71,13 @@ RSpec.describe Sphynx::Configuration do
 
     it 'should set the scopes and set default revocation strategy for scopes that dont have one' do
       scopes = {
-        user: { repository: User },
-        admin: { repository: User, revocation_strategy: DummyRevocationStrategy }
+        user: { user_class: User, provider_class: AuthProvider },
+        admin: { user_class: User, provider_class: AuthProvider, revocation_strategy: DummyRevocationStrategy }
       }
 
       expected_scopes = {
-        user: { repository: User, revocation_strategy: Sphynx::RevocationStrategies::NullStrategy },
-        admin: { repository: User, revocation_strategy: DummyRevocationStrategy }
+        user: { user_class: User, provider_class: AuthProvider, revocation_strategy: Sphynx::RevocationStrategies::NullStrategy },
+        admin: { user_class: User, provider_class: AuthProvider, revocation_strategy: DummyRevocationStrategy }
       }
 
       instance.scopes = scopes

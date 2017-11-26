@@ -1,13 +1,14 @@
 require 'sphynx/configuration'
 require 'sphynx/revocation_strategies/null_strategy'
 require 'sphynx/middleware'
+require 'sphynx/services/base_auth_service'
 
 if Gem::Specification.find_all_by_name('grape').any?
-  require 'sphynx/helper/grape_helper'
+  require 'sphynx/helpers/grape_helper'
 end
 
 if Gem::Specification.find_all_by_name('activesupport').any?
-  require 'sphynx/helper/rails_helper'
+  require 'sphynx/helpers/rails_helper'
 end
 
 require 'warden/jwt_auth'
@@ -35,7 +36,7 @@ module Sphynx
     revocation_strategies = {}
 
     configuration.scopes.each do |scope, config|
-      mappings[scope] = config[:repository]
+      mappings[scope] = config[:user_class]
       revocation_strategies[scope] = config[:revocation_strategy]
     end
 

@@ -16,7 +16,7 @@ RSpec.describe Sphynx do
         config.revocation_requests = [['GET', /^logout$/]]
         config.secret = 'super_secret'
         config.scopes = {
-          admin: { repository: User, revocation_strategy: DummyRevocationStrategy }
+          admin: { user_class: User, provider_class: AuthProvider, revocation_strategy: DummyRevocationStrategy }
         }
       end
 
@@ -28,7 +28,8 @@ RSpec.describe Sphynx do
         secret: nil,
         scopes: {
           user: {
-            repository: User,
+            user_class: User,
+            provider_class: AuthProvider,
             revocation_strategy: Sphynx::RevocationStrategies::NullStrategy
           }
         }

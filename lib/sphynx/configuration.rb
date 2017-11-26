@@ -1,20 +1,20 @@
 module Sphynx
   class Configuration
     attr_reader :dispatch_requests, :revocation_requests, :scopes
-    attr_accessor :secret, :failure_app
+    attr_accessor :secret, :failure_app, :google_client_id
 
     METHODS = %w[HEAD GET POST PUT PATCH DELETE OPTIONS]
 
     def initialize
       @dispatch_requests = []
       @revocation_requests = []
-      @secret = nil
       @failure_app = ->(env) { [401, { 'Content-Type' => 'application/json' }, [{ error: 'unauthorized', message: (env['warden.options'][:message] || 'Unauthorized') }.to_json]] }
 
       begin
         @scopes = {
           user: {
-            repository: ::User,
+            user_class: User,
+            provider_class: AuthProvider,
             revocation_strategy: Sphynx::RevocationStrategies::NullStrategy
           }
         }
@@ -34,7 +34,8 @@ module Sphynx
 
     def scopes=(value)
       raise ArgumentError, 'You have to specify at least one scope' unless value.is_a?(Hash) && value.keys.any?
-      raise ArgumentError, 'A scope must have a repository' unless value.values.all? { |scope| scope.key?(:repository) }
+      raise ArgumentError, 'A scope must have a user_class' unless value.values.all? { |scope| scope.key?(:user_class) }
+      raise ArgumentError, 'A scope must have a provider_class' unless value.values.all? { |scope| scope.key?(:provider_class) }
 
       value.values.map! do |scope|
         scope[:revocation_strategy] ||= Sphynx::RevocationStrategies::NullStrategy
