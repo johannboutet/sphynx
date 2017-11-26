@@ -10,6 +10,7 @@ module ConfigurationHelper
         user: { user_class: User, provider_class: provider, revocation_strategy: DummyRevocationStrategy },
         admin: { user_class: User, provider_class: provider, revocation_strategy: DummyRevocationStrategy }
       }
+      config.google_client_id = 'google_id'
     end
   end
 end

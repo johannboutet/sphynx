@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
+require 'sphynx/services/base_auth_service'
 require 'google-id-token'
 
 module Sphynx
-  class GoogleAuthService < Sphynx::BaseAuthService
+  class GoogleAuthService < BaseAuthService
     PROVIDER = 'google'
 
     def self.get_user_hash(token)
@@ -13,7 +14,7 @@ module Sphynx
       begin
         payload = validator.check(token, client_id, client_id)
       rescue GoogleIDToken::ValidationError => e
-        raise InvalidToken, e
+        raise InvalidTokenError, e
       end
 
       payload

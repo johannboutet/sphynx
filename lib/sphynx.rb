@@ -1,7 +1,6 @@
 require 'sphynx/configuration'
 require 'sphynx/revocation_strategies/null_strategy'
 require 'sphynx/middleware'
-require 'sphynx/services/base_auth_service'
 
 if Gem::Specification.find_all_by_name('grape').any?
   require 'sphynx/helpers/grape_helper'

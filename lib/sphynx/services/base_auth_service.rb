@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Sphynx
-  class BaseAuthenticationService
+  class BaseAuthService
     PROVIDER = nil
 
     def self.authenticate!(scope, token, request, create_if_not_found = true)
@@ -26,7 +26,7 @@ module Sphynx
     end
   end
 
-  class InvalidToken < StandardError
+  class InvalidTokenError < StandardError
   end
 
   class UserNotFoundError < StandardError

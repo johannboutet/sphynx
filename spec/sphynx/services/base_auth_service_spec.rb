@@ -1,6 +1,8 @@
+require 'sphynx/services/base_auth_service'
+
 include ConfigurationHelper
 
-RSpec.describe Sphynx::BaseAuthenticationService do
+RSpec.describe Sphynx::BaseAuthService do
   let(:request) { instance_double('request') }
   let(:warden) { instance_double('warden') }
   let(:provider_class) { class_double('AuthProvider') }
@@ -11,9 +13,9 @@ RSpec.describe Sphynx::BaseAuthenticationService do
   describe '.authenticate!' do
     before(:each) do
       configure_sphynx
-      stub_const('Sphynx::BaseAuthenticationService::PROVIDER', 'google')
+      stub_const('Sphynx::BaseAuthService::PROVIDER', 'google')
 
-      allow(Sphynx::BaseAuthenticationService).to receive(:get_user_hash).and_return(user_hash)
+      allow(Sphynx::BaseAuthService).to receive(:get_user_hash).and_return(user_hash)
       allow(request).to receive(:env).and_return('warden' => warden)
     end
 
@@ -24,7 +26,7 @@ RSpec.describe Sphynx::BaseAuthenticationService do
         expect(warden).to receive(:set_user).with(user, scope: :user)
         expect(user).to receive(:after_authentication).with('google', request, user_hash)
 
-        Sphynx::BaseAuthenticationService.authenticate!(:user, 'token', request, false)
+        Sphynx::BaseAuthService.authenticate!(:user, 'token', request, false)
       end
     end
 
@@ -37,22 +39,22 @@ RSpec.describe Sphynx::BaseAuthenticationService do
         allow(warden).to receive(:set_user)
         expect(User).to receive(:create_from_auth).with('google', request, user_hash)
 
-        Sphynx::BaseAuthenticationService.authenticate!(:user, 'token', request, true)
+        Sphynx::BaseAuthService.authenticate!(:user, 'token', request, true)
       end
 
       it 'should raise an error if user creation is disabled' do
-        expect { Sphynx::BaseAuthenticationService.authenticate!(:user, 'token', request, false) }.to raise_error(Sphynx::UserNotFoundError)
+        expect { Sphynx::BaseAuthService.authenticate!(:user, 'token', request, false) }.to raise_error(Sphynx::UserNotFoundError)
       end
     end
   end
 
   describe '.get_user_hash' do
     it 'should have no provider' do
-      expect(Sphynx::BaseAuthenticationService::PROVIDER).to be_nil
+      expect(Sphynx::BaseAuthService::PROVIDER).to be_nil
     end
 
     it 'should raise a NoMethodError' do
-      expect { Sphynx::BaseAuthenticationService.get_user_hash('token') }.to raise_error(NoMethodError)
+      expect { Sphynx::BaseAuthService.get_user_hash('token') }.to raise_error(NoMethodError)
     end
   end
 end
