@@ -1,6 +1,7 @@
-RSpec.describe Sphynx::GrapeHelper::SecurityMethods do
+RSpec.describe Sphynx::GrapeHelper do
   let(:target) { Target.new }
   let(:request) { instance_double('request') }
+  let(:warden) { instance_double('warden') }
 
   before(:all) do
     Sphynx.configure do |config|
@@ -14,8 +15,13 @@ RSpec.describe Sphynx::GrapeHelper::SecurityMethods do
     end
 
     class Target
-      include Sphynx::GrapeHelper::SecurityMethods
+      include Sphynx::GrapeHelper
     end
+  end
+
+  before(:each) do
+    allow(target).to receive(:request).and_return(request)
+    allow(request).to receive(:env).and_return({ 'warden' => warden })
   end
 
   it 'should define helper methods for each scope' do
@@ -32,10 +38,23 @@ RSpec.describe Sphynx::GrapeHelper::SecurityMethods do
 
   describe '#warden' do
     it 'should return the request\'s warden' do
-      allow(request).to receive(:env).and_return({ 'warden' => 'the request warden' })
-      allow(target).to receive(:request).and_return(request)
+      expect(target.warden).to eq(warden)
+    end
+  end
 
-      expect(target.warden).to eq('the request warden')
+  describe '#authenticate!' do
+    it 'should call warden for authentication' do
+      expect(warden).to receive(:authenticate!).with(:jwt, scope: :user)
+
+      target.authenticate!(:user)
+    end
+  end
+
+  describe '#signed_in?' do
+    it 'should call warden to get authentication state' do
+      expect(warden).to receive(:authenticated?).with(:user)
+
+      target.signed_in?(:user)
     end
   end
 end
