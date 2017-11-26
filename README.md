@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/johannboutet/sphynx.svg?branch=master)](https://travis-ci.org/johannboutet/sphynx)
+[![codecov](https://codecov.io/gh/johannboutet/sphynx/branch/master/graph/badge.svg)](https://codecov.io/gh/johannboutet/sphynx)
 
 # Sphynx
 
