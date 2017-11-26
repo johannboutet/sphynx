@@ -1,17 +1,11 @@
+include ConfigurationHelper
+
 RSpec.describe Sphynx::RailsHelper do
   let(:target) { Target.new }
   let(:warden) { instance_double('warden') }
 
   before(:all) do
-    Sphynx.configure do |config|
-      config.dispatch_requests = [['POST', /^login$/]]
-      config.revocation_requests = [['GET', /^logout$/]]
-      config.secret = 'super_secret'
-      config.scopes = {
-        user: { user_class: User, provider_class: AuthProvider, revocation_strategy: DummyRevocationStrategy },
-        admin: { user_class: User, provider_class: AuthProvider, revocation_strategy: DummyRevocationStrategy }
-      }
-    end
+    configure_sphynx
 
     class Target
       include Sphynx::RailsHelper

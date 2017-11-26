@@ -1,3 +1,5 @@
+include ConfigurationHelper
+
 RSpec.describe Sphynx do
   it 'has a version number' do
     expect(Sphynx::VERSION).not_to be nil
@@ -11,14 +13,7 @@ RSpec.describe Sphynx do
 
   describe '.reset' do
     it 'should reset configuration to default values' do
-      Sphynx.configure do |config|
-        config.dispatch_requests = [['POST', /^login$/]]
-        config.revocation_requests = [['GET', /^logout$/]]
-        config.secret = 'super_secret'
-        config.scopes = {
-          admin: { user_class: User, provider_class: AuthProvider, revocation_strategy: DummyRevocationStrategy }
-        }
-      end
+      configure_sphynx
 
       Sphynx.reset
 
