@@ -1,11 +1,15 @@
 require 'sphynx/configuration'
 require 'sphynx/revocation_strategies/null_strategy'
+require 'sphynx/middleware'
 require 'sphynx/version'
 
 if Gem::Specification.find_all_by_name('grape').any?
-  require 'sphynx/middleware/grape_middleware'
   require 'sphynx/helper/grape/security_methods'
   require 'sphynx/helper/grape/secured_endpoint'
+end
+
+if Gem::Specification.find_all_by_name('rails').any?
+  require 'sphynx/helper/rails/security_methods'
 end
 
 require 'warden/jwt_auth'
