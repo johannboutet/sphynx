@@ -8,7 +8,7 @@ if Gem::Specification.find_all_by_name('grape').any?
 end
 
 if Gem::Specification.find_all_by_name('rails').any?
-  require 'sphynx/helper/rails/security_methods'
+  require 'sphynx/helper/rails_helper'
 end
 
 require 'warden/jwt_auth'
