@@ -1,5 +1,3 @@
-require 'warden/jwt_auth/middleware'
-
 module Sphynx
   class Middleware
     attr_reader :app

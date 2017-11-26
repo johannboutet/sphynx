@@ -1,6 +1,5 @@
 RSpec.describe Sphynx::GrapeHelper do
   let(:target) { Target.new }
-  let(:request) { instance_double('request') }
   let(:warden) { instance_double('warden') }
 
   before(:all) do
@@ -20,8 +19,7 @@ RSpec.describe Sphynx::GrapeHelper do
   end
 
   before(:each) do
-    allow(target).to receive(:request).and_return(request)
-    allow(request).to receive(:env).and_return({ 'warden' => warden })
+    allow(target).to receive(:env).and_return({ 'warden' => warden })
   end
 
   it 'should define helper methods for each scope' do

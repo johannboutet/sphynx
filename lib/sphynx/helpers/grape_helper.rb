@@ -1,10 +1,6 @@
-require 'active_support/concern'
-
 module Sphynx
-  module RailsHelper
-    extend ActiveSupport::Concern
-
-    included do
+  module GrapeHelper
+    def self.included(_)
       Sphynx.configuration.scopes.keys.each do |scope|
         define_method(:"authenticate_#{scope}!") { authenticate!(scope) }
         define_method(:"current_#{scope}") { warden.user(scope) }
@@ -13,7 +9,7 @@ module Sphynx
     end
 
     def warden
-      request.env['warden']
+      env['warden']
     end
 
     def authenticate!(scope)
