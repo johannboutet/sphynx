@@ -7,7 +7,7 @@ if Gem::Specification.find_all_by_name('grape').any?
   require 'sphynx/helper/grape_helper'
 end
 
-if Gem::Specification.find_all_by_name('rails').any?
+if Gem::Specification.find_all_by_name('activesupport').any?
   require 'sphynx/helper/rails_helper'
 end
 
