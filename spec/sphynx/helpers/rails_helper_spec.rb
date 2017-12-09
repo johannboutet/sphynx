@@ -13,7 +13,7 @@ RSpec.describe Sphynx::RailsHelper do
   end
 
   before(:each) do
-    allow(target).to receive(:env).and_return({ 'warden' => warden })
+    allow(target).to receive_message_chain(:request, :env).and_return({ 'warden' => warden })
   end
 
   it 'should define helper methods for each scope' do
