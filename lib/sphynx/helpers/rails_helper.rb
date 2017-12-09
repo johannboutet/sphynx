@@ -13,7 +13,7 @@ module Sphynx
     end
 
     def warden
-      env['warden']
+      request.env['warden']
     end
 
     def authenticate!(scope)
