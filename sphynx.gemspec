@@ -7,7 +7,6 @@ Gem::Specification.new do |spec|
   spec.version = Sphynx::VERSION
   spec.authors = ['Johann Boutet']
   spec.email = ['contact@johannboutet.com']
-
   spec.summary = 'API authentication with JWT and Warden'
   spec.description = 'API authentication with JWT and Warden'
   spec.homepage = 'https://github.com/johannboutet/sphynx'
@@ -28,16 +27,14 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'warden-jwt_auth', '~> 0.1.4'
+  spec.add_dependency 'warden-jwt_auth', '~> 0.3.5'
 
+  spec.add_development_dependency 'activesupport', '~> 5.2'
   spec.add_development_dependency 'bundler', '~> 1.16'
-  spec.add_development_dependency 'rake', '~> 10.0'
-
-  spec.add_development_dependency 'grape', '~> 1.0', '>= 1.0.1'
-  spec.add_development_dependency 'activesupport', '~> 5.1', '>= 5.1.4'
-  spec.add_development_dependency 'google-id-token', '~> 1.4', '>= 1.4.2'
-
-  spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'simplecov', '~> 0.15.1'
   spec.add_development_dependency 'codecov', '~> 0.1.10'
+  spec.add_development_dependency 'google-id-token', '~> 1.4.2'
+  spec.add_development_dependency 'grape', '~> 1.0'
+  spec.add_development_dependency 'rake', '~> 12.3.1'
+  spec.add_development_dependency 'rspec', '~> 3.7.0'
+  spec.add_development_dependency 'simplecov', '~> 0.16.1'
 end
