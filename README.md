@@ -3,9 +3,17 @@
 
 # Sphynx
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/sphynx`. To experiment with that code, run `bin/console` for an interactive prompt.
+Sphynx is a gem designed to help you integrate JSON Web Token (JWT) and OAuth authentication in your API. It was created with Rails and Grape apps in mind, but it should be able to work with any Rack application easily.
 
-TODO: Delete this and the text above, and describe your gem
+## How does it work
+
+Sphynx basically consists of a Rack middleware and some helper classes. The middleware handles user authentication through JWT with Warden and the helper classes are here to help you use OAuth providers.
+
+The first time a user tries to authenticate, the request should send a payload including an OAuth provider name (Google, Facebook, etc.) and a token. Use the helper classes (or your own) to validate this token and sign in the user.
+
+Once the user is signed in, the middleware kicks in and dispatches a JWT in the headers of the response. This JWT should then be used by your front-end application to authenticate the user in each subsequent request.
+
+Sphynx also supports JWT revocation if you want to mark a JWT as invalid when a user signs out.
 
 ## Installation
 
