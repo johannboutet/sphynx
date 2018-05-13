@@ -5,7 +5,9 @@ require 'google-id-token'
 
 module Sphynx
   class GoogleAuthService < BaseAuthService
-    PROVIDER = 'google'
+    def self.provider
+      'google'
+    end
 
     def self.get_user_hash(token)
       validator = GoogleIDToken::Validator.new
