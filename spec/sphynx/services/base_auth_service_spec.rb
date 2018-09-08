@@ -13,9 +13,9 @@ RSpec.describe Sphynx::BaseAuthService do
   describe '.authenticate!' do
     before(:each) do
       configure_sphynx
-      stub_const('Sphynx::BaseAuthService::PROVIDER', 'google')
 
       allow(Sphynx::BaseAuthService).to receive(:get_user_hash).and_return(user_hash)
+      allow(Sphynx::BaseAuthService).to receive(:provider).and_return('google')
       allow(request).to receive(:env).and_return('warden' => warden)
     end
 
@@ -49,10 +49,6 @@ RSpec.describe Sphynx::BaseAuthService do
   end
 
   describe '.get_user_hash' do
-    it 'should have no provider' do
-      expect(Sphynx::BaseAuthService::PROVIDER).to be_nil
-    end
-
     it 'should raise a NoMethodError' do
       expect { Sphynx::BaseAuthService.get_user_hash('token') }.to raise_error(NoMethodError)
     end

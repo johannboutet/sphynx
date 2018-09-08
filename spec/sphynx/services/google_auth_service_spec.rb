@@ -1,14 +1,16 @@
 require 'sphynx/services/google_auth_service'
 
-include ConfigurationHelper
-
 RSpec.describe Sphynx::GoogleAuthService do
+  include ConfigurationHelper
+
   before(:all) do
     configure_sphynx
   end
 
-  it 'PROVIDER should be google' do
-    expect(Sphynx::GoogleAuthService::PROVIDER).to eq('google')
+  describe '.provider' do
+    it 'should be google' do
+      expect(Sphynx::GoogleAuthService.provider).to eq('google')
+    end
   end
 
   describe '.get_user_hash' do
