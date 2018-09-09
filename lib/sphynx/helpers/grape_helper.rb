@@ -1,10 +1,10 @@
 module Sphynx
   module GrapeHelper
     def self.included(_)
-      Sphynx.configuration.scopes.keys.each do |scope|
-        define_method(:"authenticate_#{scope}!") { authenticate!(scope) }
-        define_method(:"current_#{scope}") { warden.user(scope) }
-        define_method(:"#{scope}_signed_in?") { signed_in?(scope) }
+      Sphynx.configuration.scopes.each do |key, scope|
+        define_method(:"authenticate_#{key}!") { authenticate!(key) }
+        define_method(:"current_#{key}") { scope[:user_class].find(warden.user(scope).id) }
+        define_method(:"#{key}_signed_in?") { signed_in?(key) }
       end
     end
 
