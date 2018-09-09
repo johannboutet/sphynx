@@ -107,12 +107,28 @@ Which means that Sphynx will expect a `User` class and a `AuthProvider` class by
 
 ## User class
 
-Your user class must answer to the following class methods:
-- `.find_for_jwt_authentication(sub)` -  this method will be passed the `sub` claim of the JWT
-- `.jwt_subject` - this method must return what will be encoded in the `sub` claim of the JWT, and then used to retrieve the user 
+Your user class must answer to the following methods:
+- `.find_for_jwt_authentication(sub)` **[class method]** -  this method will be passed the `sub` claim of the JWT
+- `#jwt_subject` **[instance method]** - this method must return what will be encoded in the `sub` claim of the JWT, and then used to retrieve the user 
 
-## Usage
+For example:
+```ruby
+class User
+  def self.find_for_jwt_authentication(sub)
+    find_by(id: sub)
+  end
+  
+  def jwt_subject
+    id
+  end
+end
+```
 
+## Examples
+
+Check out these two demo projects to see how to use Sphynx in a Rails app and a Grape app:
+- [Rails app](https://github.com/johannboutet/sphynx-rails-demo)
+- [Grape app](https://github.com/johannboutet/sphynx-grape-demo)
 
 ## Development
 
