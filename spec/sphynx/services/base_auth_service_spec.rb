@@ -48,6 +48,12 @@ RSpec.describe Sphynx::BaseAuthService do
     end
   end
 
+  describe '.provider' do
+    it 'should raise a NoMethodError' do
+      expect { Sphynx::BaseAuthService.provider }.to raise_error(NoMethodError)
+    end
+  end
+
   describe '.get_user_hash' do
     it 'should raise a NoMethodError' do
       expect { Sphynx::BaseAuthService.get_user_hash('token') }.to raise_error(NoMethodError)
